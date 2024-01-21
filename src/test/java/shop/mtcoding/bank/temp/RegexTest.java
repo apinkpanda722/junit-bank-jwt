@@ -56,4 +56,27 @@ public class RegexTest {
     }
 
     // username, email, fullname
+    @DisplayName("회원가입 Request에서 유저명은 영문/숫자 2~20자 이내로 작성해야 한다.")
+    @Test
+    void user_username_test() {
+        String username = "sdsfffffffffffff23ㄱ";
+        boolean result = Pattern.matches("^[a-zA-Z0-9]{2,20}$", username);
+        System.out.println("테스트 : " + result);
+    }
+
+    @DisplayName("회원가입 Request에서 유저풀네임은 영문/한글 1~20자 이내로 작성해야 한다.")
+    @Test
+    void user_fullname_test() {
+        String fullname = "sdsfffffffffffff가";
+        boolean result = Pattern.matches("^[a-zA-Z가-힣]{1,20}$", fullname);
+        System.out.println("테스트 : " + result);
+    }
+
+    @DisplayName("")
+    @Test
+    void user_email_test() {
+        String email = "ssar1@nate.com";
+        boolean result = Pattern.matches("^[a-zA-Z0-9]{2,10}@[a-zA-Z0-9]{2,6}\\.[a-zA-Z]{2,3}$", email);
+        System.out.println("테스트 : " + result);
+    }
 }
