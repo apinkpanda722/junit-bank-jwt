@@ -26,7 +26,7 @@ public class UserService {
     @Transactional // 트랜잭션이 메서드 시작할때, 시작되고, 종료될 때 함께 종료
     public JoinRespDto 회원가입(JoinReqDto joinReqDto) {
         // 1. 동일 유저네임 존재 검사
-        Optional<User> userOP = userRepository.findByUserName(joinReqDto.getUsername());
+        Optional<User> userOP = userRepository.findByUsername(joinReqDto.getUsername());
         if(userOP.isPresent()) {
             // 유저네임 중복되었다는 뜻
             throw new CustomApiException("동일한 유저네임이 존재합니다.");
