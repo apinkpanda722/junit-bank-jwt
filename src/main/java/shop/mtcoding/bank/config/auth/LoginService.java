@@ -13,7 +13,7 @@ import shop.mtcoding.bank.domain.user.UserRepository;
 @Service
 public class LoginService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     // 시큐리티로 로그인이 될때, 시큐리티가 loadUserByUsername 메써드를 실행해서 username을 체크
     // 없으면 오류
