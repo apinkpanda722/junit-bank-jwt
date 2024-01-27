@@ -14,6 +14,13 @@ public class UserReqDto {
 
     @Setter
     @Getter
+    public static class LoginReqDto {
+        private String username;
+        private String password;
+    }
+
+    @Setter
+    @Getter
     public static class JoinReqDto {
         // 영문, 숫자 허용, 길이 최소 2 ~ 20 이내
         @NotEmpty // null이거나, 공백일 수 없다.
