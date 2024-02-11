@@ -1,5 +1,6 @@
 package shop.mtcoding.bank.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -128,5 +129,43 @@ class AccountServiceTest extends DummyObject {
         assertThat(accountDepositRespDto.getTransaction().getDepositAccountBalance()).isEqualTo(1100L);
 
     }
+
+    @DisplayName("")
+    @Test
+    void 계좌입금_test2() throws Exception {
+        // given
+        AccountDepositReqDto accountDepositReqDto = new AccountDepositReqDto();
+        accountDepositReqDto.setNumber(1111L);
+        accountDepositReqDto.setAmount(100L);
+        accountDepositReqDto.setGubun("DEPOSIT");
+        accountDepositReqDto.setTel("01088887777");
+
+        // stub 1
+        User ssar = newMockUser(1L, "ssar", "쌀");
+        Account ssarAccount1 = newMockAccount(1L, 1111L, 1000L, ssar);
+        when(accountRepository.findByNumber(any())).thenReturn(Optional.of(ssarAccount1));
+
+        // stub 2
+        User ssar2 = newMockUser(1L, "ssar", "쌀");
+        Account ssarAccount2 = newMockAccount(1L, 1111L, 1000L, ssar2);
+        Transaction transaction = newMockDepositTransaction(1L, ssarAccount2);
+        when(transactionRepository.save(any())).thenReturn(transaction);
+
+        // when
+        AccountDepositRespDto accountDepositRespDto = accountService.계좌입금(accountDepositReqDto);
+        String responseBody = om.writeValueAsString(accountDepositRespDto);
+        System.out.println("테스트 : " + responseBody);
+
+        // then
+        assertThat(ssarAccount1.getBalance()).isEqualTo(1100L);
+    }
+
+    // 계좌 출금_테스트
+
+    // 계좌 이체_테스트
+
+    // 계좌목록보기_유저별_테스트
+
+    // 계좌 상세보기_테스트
 
 }
