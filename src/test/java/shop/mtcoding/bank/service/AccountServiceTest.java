@@ -23,6 +23,7 @@ import shop.mtcoding.bank.dto.account.AccountResDto;
 import shop.mtcoding.bank.dto.account.AccountResDto.AccountDepositRespDto;
 import shop.mtcoding.bank.dto.account.AccountResDto.AccountSaveRespDto;
 import shop.mtcoding.bank.handler.ex.CustomApiException;
+import shop.mtcoding.bank.service.AccountService.AccountWithdrawReqDto;
 
 import java.util.Optional;
 
@@ -161,6 +162,30 @@ class AccountServiceTest extends DummyObject {
     }
 
     // 계좌 출금_테스트
+    @DisplayName("")
+    @Test
+    void 계좌출금_test() {
+        // given
+        Long amount = 100L;
+        Long password = 1234L;
+        Long userId = 1L;
+
+        User ssar = newMockUser(1L, "ssar", "쌀");
+        Account ssarAccount = newMockAccount(1L, 1111L, 1000L, ssar);
+
+        // when
+        if (amount <= 0L) {
+            throw new CustomApiException("0원 이하의 금액을 입금할 수 없습니다.");
+        }
+
+        ssarAccount.checkOwner(userId);
+        ssarAccount.checkSamePassword(password);
+//        ssarAccount.checkBalance(amount);
+        ssarAccount.withDraw(amount);
+
+        // then
+        assertThat(ssarAccount.getBalance()).isEqualTo(900L);
+    }
 
     // 계좌 이체_테스트
 
