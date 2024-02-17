@@ -10,10 +10,11 @@ import shop.mtcoding.bank.config.auth.LoginUser;
 import shop.mtcoding.bank.dto.ResponseDto;
 import shop.mtcoding.bank.dto.account.AccountReqDto;
 import shop.mtcoding.bank.dto.account.AccountReqDto.AccountDepositReqDto;
-import shop.mtcoding.bank.dto.account.AccountResDto.AccountDepositRespDto;
-import shop.mtcoding.bank.dto.account.AccountResDto.AccountListRespDto;
-import shop.mtcoding.bank.dto.account.AccountResDto.AccountSaveRespDto;
-import shop.mtcoding.bank.dto.account.AccountResDto.AccountWithdrawRespDto;
+import shop.mtcoding.bank.dto.account.AccountReqDto.AccountSaveReqDto;
+import shop.mtcoding.bank.dto.account.AccountReqDto.AccountTransferReqDto;
+import shop.mtcoding.bank.dto.account.AccountReqDto.AccountWithdrawReqDto;
+import shop.mtcoding.bank.dto.account.AccountResDto;
+import shop.mtcoding.bank.dto.account.AccountResDto.*;
 import shop.mtcoding.bank.service.AccountService;
 
 import javax.validation.Valid;
@@ -25,7 +26,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/s/account")
-    public ResponseEntity<?> saveAccount(@RequestBody @Valid AccountReqDto.AccountSaveReqDto accountSaveReqDto,
+    public ResponseEntity<?> saveAccount(@RequestBody @Valid AccountSaveReqDto accountSaveReqDto,
                                          BindingResult bindingResult,
                                          @AuthenticationPrincipal LoginUser loginUser) {
         AccountSaveRespDto accountSaveRespDto = accountService.계좌등록(accountSaveReqDto, loginUser.getUser().getId());
@@ -53,11 +54,19 @@ public class AccountController {
     }
 
     @PostMapping("/s/account/withdraw")
-    public ResponseEntity<?> withdrawAccount(@RequestBody @Valid AccountReqDto.AccountWithdrawReqDto accountWithdrawReqDto,
+    public ResponseEntity<?> withdrawAccount(@RequestBody @Valid AccountWithdrawReqDto accountWithdrawReqDto,
                                              BindingResult bindingResult,
                                              @AuthenticationPrincipal LoginUser loginUser) {
         AccountWithdrawRespDto accountWithdrawRespDto = accountService.계좌출금(accountWithdrawReqDto, loginUser.getUser().getId());
         return new ResponseEntity<>(new ResponseDto<>(1, "계좌출금 완료", accountWithdrawRespDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/s/account/transfer")
+    public ResponseEntity<?> transferAccount(@RequestBody @Valid AccountTransferReqDto accountTransferReqDto,
+                                             BindingResult bindingResult,
+                                             @AuthenticationPrincipal LoginUser loginUser) {
+        AccountTransferRespDto accountWithdrawRespDto = accountService.계좌이체(accountTransferReqDto, loginUser.getUser().getId());
+        return new ResponseEntity<>(new ResponseDto<>(1, "계좌이체 완료", accountWithdrawRespDto), HttpStatus.CREATED);
     }
 
 }
