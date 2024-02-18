@@ -97,7 +97,7 @@ public class SecurityConfig {
         configuration.addAllowedMethod("*"); // GET, POST, PUT, DELETE (Javascript 요청 허용)
         configuration.addAllowedOriginPattern("*"); // 모든 IP 주소 허용 (프론트 엔드 IP만 허용 react등 ) -> 앱은 Kotlin이나 스위프트 등 언어가 다르기 때문에 cors에 걸리지 않음
         configuration.setAllowCredentials(true); // 클라이언트에서 서버로의 쿠키 요청 허용
-
+        configuration.addExposedHeader("Authorization"); // 옛날에는 디폴트였다. 지금은 아니다.
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

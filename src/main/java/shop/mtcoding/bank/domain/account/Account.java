@@ -62,7 +62,7 @@ public class Account {
     }
 
     public void checkOwner(Long userId) { // Lazy 로딩이어도 id를 조회할 때는 select 쿼리가 실행되지 않는다.
-        if (user.getId() != userId) {
+        if (user.getId().longValue() != userId.longValue()) {
             throw new CustomApiException("계좌 소유자가 아닙니다.");
         }
     }
