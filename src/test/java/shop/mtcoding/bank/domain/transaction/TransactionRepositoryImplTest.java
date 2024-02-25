@@ -15,6 +15,8 @@ import shop.mtcoding.bank.domain.user.UserRepository;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ActiveProfiles("test")
 @DataJpaTest // DB 관련된 Bean이 다 올라온다.
 public class TransactionRepositoryImplTest extends DummyObject {
@@ -35,6 +37,7 @@ public class TransactionRepositoryImplTest extends DummyObject {
     public void setUp() {
         autoIncrementReset();
         dataSetting();
+        em.clear(); // 레포테스트에서 필수
     }
 
     private void autoIncrementReset() {
@@ -62,6 +65,7 @@ public class TransactionRepositoryImplTest extends DummyObject {
         });
 
         // then
+        assertThat(transactionListPS.get(3).getDepositAccountBalance()).isEqualTo(800L);
     }
 
     @Test
