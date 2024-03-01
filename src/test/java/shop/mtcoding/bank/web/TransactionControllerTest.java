@@ -60,7 +60,7 @@ class TransactionControllerTest extends DummyObject {
     @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION) // DB에서 username = ssar 조회를 해서 세션에 담아주는 어노테이션
     @DisplayName("")
     @Test
-    void test() throws Exception {
+    void findTransactionList_test() throws Exception {
         // given
         Long number = 1111L;
         String gubun = "ALL";
